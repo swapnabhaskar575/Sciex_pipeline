@@ -4,5 +4,16 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - mvn clean package
+      - mvn clean install
+      - mvn test
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - mvn package
+      - mv target/petclinic.war petclinic.war
+     
+artifacts:
+  files:
+      - petclinic.war
+      - .ebextensions/**/*
        
