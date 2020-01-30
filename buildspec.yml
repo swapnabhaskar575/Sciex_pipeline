@@ -19,7 +19,7 @@ phases:
       - echo Build started on `date`
       - mvn clean install
       - mvn test
-      - mvn sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.host.url=$SONAR_HOST
+      - mvn sonar:sonar 
       
   post_build:
     commands:
