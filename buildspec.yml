@@ -18,14 +18,14 @@ phases:
     commands:
       - echo Build started on `date`
       - mvn clean install
-      - mvn test
-      - mvn sonar:sonar 
+     #...... - mvn test
+      - sonar-scanner
       
   post_build:
     commands:
       - echo Build completed on `date`
-      - mvn package
-      - mv target/petclinic.war petclinic.war
+      #.....- mvn package
+      #......- mv target/petclinic.war petclinic.war
      
 artifacts:
   files:
