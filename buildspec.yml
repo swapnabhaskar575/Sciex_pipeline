@@ -1,5 +1,10 @@
 version: 0.2
 
+env:
+  variables:
+    SONAR_LOGIN: "admin"
+    SONAR_HOST: "44.232.190.213:9000"
+
 phases:
   pre_build:
      install:
@@ -7,14 +12,15 @@ phases:
          - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
          - unzip sonar-scanner-cli-3.3.0.1492-linux.zip
          - export PATH=$PATH:./sonar-scanner-3.3.0.1492-linux/bin/
+         
    
   build:
     commands:
       - echo Build started on `date`
       - mvn clean install
       - mvn test
-      - mvn sonar-scanner
-      - mvn sonar:sonar
+      - mvn sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.host.url=$SONAR_HOST
+      
   post_build:
     commands:
       - echo Build completed on `date`
