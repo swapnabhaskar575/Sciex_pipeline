@@ -1,8 +1,4 @@
 version: 0.2
-env:
-   parameter-store:
-     SONARQUBE_TOKEN: "SonarQubeToken"
-     SONARQUBE_ENDPOINT: "SonarQubeEndpoint"
 
 phases:
   pre_build:
