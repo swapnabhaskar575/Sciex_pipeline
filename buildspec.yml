@@ -1,6 +1,6 @@
 version: 0.2
 env:
-     parameter-store:
+   parameter-store:
      SONARQUBE_TOKEN: "SonarQubeToken"
      SONARQUBE_ENDPOINT: "SonarQubeEndpoint"
 
