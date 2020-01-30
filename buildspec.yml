@@ -2,29 +2,44 @@ version: 0.2
 
 
 phases:
-  pre_build:
-     install:
-       commands:
-         - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
-         - unzip sonar-scanner-cli-3.3.0.1492-linux.zip
-         - export PATH=$PATH:./sonar-scanner-3.3.0.1492-linux/bin/
-         
-   
+  install:
+   runtime-versions: 
+     java: openjdk8
+     
+   commands:
+      # Upgrade AWS CLI to the latest version
+      - pip install --upgrade awscli 
+      # Folder organization 
+      - cd /root 
+      - codeAnalysisFolder="Sonar" # todo: refactor to include "/root" 
+      - mkdir $codeAnalysisFolder && cd $codeAnalysisFolder 
+      # Get SonarQube 
+      - wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-8.1.0.31237.zip 
+      - unzip ./sonarqube-8.1.0.31237.zip 
+      # Launch SonarQube server locally 
+      - cd ./sonarqube-8.1.0.31237/bin/linux-x86-64 
+      - sh ./sonar.sh start 
+      # Get SonarScanner 
+      - cd /root/$codeAnalysisFolder 
+      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.2.0.1873-linux.zip 
+      - unzip ./sonar-scanner-cli-4.2.0.1873-linux.zip 
+      - export PATH=$PATH:/root/$codeAnalysisFolder/sonar-scanner-cli-4.2.0.1873-linux.zip/bin/ # todo: .zip ?! 
+  pre_build: 
+    commands: 
+      - cd $CODEBUILD_SRC_DIR 
+      - mvn clean compile test 
+      - mvn sonar:sonar      
   build:
     commands:
-      - echo Build started on `date`
-      - mvn clean install
-      - mvn test
-      - mvn sonar-scanner
+      - mvn war:exploded
       
   post_build:
     commands:
-      - echo Build completed on `date`
-      #.....- mvn package
-      #......- mv target/petclinic.war petclinic.war
+      - - cp -r .ebextensions/ target/ROOT/ 
+      - aws cloudformation package --template template.yml --s3-bucket $S3_BUCKET --output-template-file template-export.yml 
+      # Do not remove this statement. This command is required for AWS CodeStar projects. 
+      # Update the AWS Partition, AWS Region, account ID and project ID in the project ARN on template-configuration.json file so AWS CloudFormation can tag project resources. 
+      - sed -i.bak 's/\$PARTITION\$/'${PARTITION}'/g;s/\$AWS_REGION\$/'${AWS_REGION}'/g;s/\$ACCOUNT_ID\$/'${ACCOUNT_ID}'/g;s/\$PROJECT_ID\$/'${PROJECT_ID}'/g' template-configuration.json 
      
-artifacts:
-  files:
-      - petclinic.war
-      - .ebextensions/**/*
+
        
