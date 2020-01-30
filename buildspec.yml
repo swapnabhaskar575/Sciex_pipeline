@@ -43,7 +43,7 @@ phases:
 #      - cat sonar.log
 #      - cat web.log
 #      - cd $CODEBUILD_SRC_DIR
-       - mvn sonar:sonar    
+      - mvn sonar:sonar    
   build:
     commands:
       - mvn war:exploded
