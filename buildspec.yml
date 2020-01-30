@@ -1,9 +1,5 @@
 version: 0.2
 
-env:
-  variables:
-    SONAR_LOGIN: "admin"
-    SONAR_HOST: "44.232.190.213:9000"
 
 phases:
   pre_build:
@@ -18,8 +14,8 @@ phases:
     commands:
       - echo Build started on `date`
       - mvn clean install
-     #...... - mvn test
-      - sonar-scanner
+      - mvn test
+      - mvn sonar-scanner
       
   post_build:
     commands:
