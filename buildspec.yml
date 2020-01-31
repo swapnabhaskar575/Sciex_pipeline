@@ -26,19 +26,19 @@ phases:
       - wget https://binaries.sonarsource.com/Distribution/sonarqube/$sonarQube.zip
       - unzip ./$sonarQube.zip
       # Set up non-root user to run SonarQube
-      #- groupadd sonar
-      #- useradd -c "Sonar System User" -d $sonarPath/$sonarQube -g sonar -s /bin/bash sonar
-      #- chown -R sonar:sonar $sonarPath/$sonarQube  # recursively changing the folder's ownership
+      - groupadd sonar
+      - useradd -c "Sonar System User" -d $sonarPath/$sonarQube -g sonar -s /bin/bash sonar
+      - chown -R sonar:sonar $sonarPath/$sonarQube  # recursively changing the folder's ownership
       # Launch SonarQube server locally
-      #- cd ./$sonarQube/bin/linux-x86-64
-      #- sed -i 's/#RUN_AS_USER=/RUN_AS_USER=sonar/g' sonar.sh  # enabling user execution of server
-      #- sh ./sonar.sh start
+      - cd ./$sonarQube/bin/linux-x86-64
+      - sed -i 's/#RUN_AS_USER=/RUN_AS_USER=sonar/g' sonar.sh  # enabling user execution of server
+      - sh ./sonar.sh start
       # Get SonarScanner and add to PATH
-      #- sonarScanner="sonar-scanner-cli-4.2.0.1873-linux"
-      #- cd $sonarPath
-      #- wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/$sonarScanner.zip
-      #- unzip ./$sonarScanner.zip
-      #- export PATH=$PATH:$sonarPath/$sonarScanner.zip/bin/ # todo: .zip ?!
+      - sonarScanner="sonar-scanner-cli-4.2.0.1873-linux"
+      - cd $sonarPath
+      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/$sonarScanner.zip
+      - unzip ./$sonarScanner.zip
+      - export PATH=$PATH:$sonarPath/$sonarScanner.zip/bin/ # todo: .zip ?!
   pre_build:
     commands:
       - cd $CODEBUILD_SRC_DIR
