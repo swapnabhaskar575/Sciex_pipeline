@@ -33,19 +33,12 @@ phases:
       - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/$sonarScanner.zip
       - unzip ./$sonarScanner.zip
       - export PATH=$PATH:$sonarPath/$sonarScanner.zip/bin/ # todo: .zip ?!
-  pre_build: 
+ pre_build: 
     commands: 
        - cd $CODEBUILD_SRC_DIR
        - mvn clean compile test
-       - mvn sonar:sonar
-#      - cd $sonarPath/$sonarQube/logs
-#      - cat access.log
-#      - cat es.log
-#      - cat sonar.log
-#      - cat web.log
-#    #---- cd $CODEBUILD_SRC_DIR
-          
-  build:
+       - mvn sonar:sonar       
+ build:
     commands:
       - mvn war:exploded
  post_build: 
