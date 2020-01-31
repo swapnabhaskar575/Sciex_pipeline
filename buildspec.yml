@@ -37,7 +37,7 @@ phases:
     commands: 
        - cd $CODEBUILD_SRC_DIR
        - mvn clean compile test
-       - mvn sonarsonar-scanner-cli-4.2.0.1873-linux
+       - mvn sonar-scanner-cli-4.2.0.1873-linux
 #      - cd $sonarPath/$sonarQube/logs
 #      - cat access.log
 #      - cat es.log
