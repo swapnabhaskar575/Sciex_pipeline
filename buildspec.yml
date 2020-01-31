@@ -37,13 +37,14 @@ phases:
     commands: 
        - cd $CODEBUILD_SRC_DIR
        - mvn clean compile test
+       - mvn sonarsonar-scanner-cli-4.2.0.1873-linux
 #      - cd $sonarPath/$sonarQube/logs
 #      - cat access.log
 #      - cat es.log
 #      - cat sonar.log
 #      - cat web.log
-#      - cd $CODEBUILD_SRC_DIR
-      -  mvn sonarsonar-scanner-cli-4.2.0.1873-linux    
+#    #---- cd $CODEBUILD_SRC_DIR
+          
   build:
     commands:
       - mvn war:exploded
