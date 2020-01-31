@@ -35,15 +35,15 @@ phases:
       - export PATH=$PATH:$sonarPath/$sonarScanner.zip/bin/ # todo: .zip ?!
   pre_build: 
     commands: 
-      - cd $CODEBUILD_SRC_DIR
-      - mvn clean compile test
+       - cd $CODEBUILD_SRC_DIR
+       - mvn clean compile test
 #      - cd $sonarPath/$sonarQube/logs
 #      - cat access.log
 #      - cat es.log
 #      - cat sonar.log
 #      - cat web.log
 #      - cd $CODEBUILD_SRC_DIR
-      - mvn sonar:sonar    
+      -  mvn sonarsonar-scanner-cli-4.2.0.1873-linux    
   build:
     commands:
       - mvn war:exploded
